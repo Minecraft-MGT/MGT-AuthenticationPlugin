@@ -1,0 +1,9 @@
+name: AuthPlugin
+version: '${project.version}'
+main: mc.authplugin.Main
+api-version: 1.16
+authors: [ Noname ]
+description: A plugin to allow users to authenticat their Minecraft identity
+
+commands:
+  token:
