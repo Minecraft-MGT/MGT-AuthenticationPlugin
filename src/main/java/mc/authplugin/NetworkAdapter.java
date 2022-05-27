@@ -15,8 +15,12 @@ import java.net.URL;
 
 public class NetworkAdapter {
 
-    public static final String webServerApiAdress = "http://127.0.0.1:31313/api/";
+    public static final String webServerApiAdress = "http://deine-mom.de:31313/api/";
     public static final String ApiAccessToken = "3OfbKnsQgQEXzcJGu8cuIGgHN9Ftg3bfu8IWr32P6JTe7Ffl0W";
+
+    public static String getCurrentServerAddress(){
+        return Main.plugin.getServer().getIp()+":"+Main.plugin.getServer().getPort();
+    }
 
     public static JsonObject buildApiRequst(JsonObject args){
         JsonObject requestObject = new JsonObject();
@@ -44,6 +48,7 @@ public class NetworkAdapter {
 
         JsonObject args = new JsonObject();
         args.addProperty("method", "register");
+        args.addProperty("address", getCurrentServerAddress());
 
         System.out.println(sendApiRq(webServerApiAdress, buildApiRequst(args)));
     }
@@ -54,6 +59,7 @@ public class NetworkAdapter {
 
         JsonObject args = new JsonObject();
         args.addProperty("method", "deregister");
+        args.addProperty("address", getCurrentServerAddress());
 
         System.out.println(sendApiRq(webServerApiAdress, buildApiRequst(args)));
 

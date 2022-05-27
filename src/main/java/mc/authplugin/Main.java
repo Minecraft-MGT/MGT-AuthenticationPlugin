@@ -8,9 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
 
+    public static JavaPlugin plugin;
+
     @Override
     public void onEnable() {
-
+        plugin = this;
         getCommand("token").setExecutor(new TokenCMD());
 
         NetworkAdapter.registerAuthenticator();
