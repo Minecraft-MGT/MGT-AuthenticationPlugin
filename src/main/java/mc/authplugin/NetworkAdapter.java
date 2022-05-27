@@ -16,7 +16,6 @@ import java.net.URL;
 public class NetworkAdapter {
 
     public static final String webServerApiAdress = "http://deine-mom.de:31313/api/";
-    public static final String ApiAccessToken = "3OfbKnsQgQEXzcJGu8cuIGgHN9Ftg3bfu8IWr32P6JTe7Ffl0W";
 
     public static String getCurrentServerAddress(){
         return Main.plugin.getServer().getIp()+":"+Main.plugin.getServer().getPort();
@@ -25,7 +24,7 @@ public class NetworkAdapter {
     public static JsonObject buildApiRequst(JsonObject args){
         JsonObject requestObject = new JsonObject();
         requestObject.addProperty("cmd", "MCAUTHENTICATION");
-        args.addProperty("authenticationToken", ApiAccessToken);
+        args.addProperty("authenticationToken", Main.apiAccessToken);
         requestObject.add("args", args);
         return  requestObject;
     }

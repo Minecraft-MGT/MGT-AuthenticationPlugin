@@ -9,10 +9,23 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Main extends JavaPlugin {
 
     public static JavaPlugin plugin;
+    public static String apiAccessToken = "";
 
     @Override
     public void onEnable() {
         plugin = this;
+
+
+        if(getConfig().contains("apiAccessToken")){
+            apiAccessToken = getConfig().getString("apiAccessToken");
+            System.out.println("API-AccessToken: "+apiAccessToken);
+        }else{
+            System.out.println("API-AccessToken: could not be loaded...");
+            getConfig().set("apiAccessToken", "unset");
+            saveConfig();
+        }
+
+
         getCommand("token").setExecutor(new TokenCMD());
 
         NetworkAdapter.registerAuthenticator();
