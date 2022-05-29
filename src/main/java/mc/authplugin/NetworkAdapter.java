@@ -36,6 +36,7 @@ public class NetworkAdapter {
 
         String response = sendApiRq(webServerApiAdress, buildApiRequst(args));
 
+        if(new JsonParser().parse(response).getAsJsonObject().get("token").isJsonNull()) return null;
         return new JsonParser().parse(response).getAsJsonObject().get("token").getAsString();
 
     }
