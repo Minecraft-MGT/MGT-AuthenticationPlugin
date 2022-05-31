@@ -1,5 +1,6 @@
 package mc.authplugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,8 +11,11 @@ public class MainListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        Player p = e.getPlayer();
-        showAuthToken(p);
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.plugin, ()->{
+            Player p = e.getPlayer();
+            showAuthToken(p);
+        });
+
     }
 
     public static void showAuthToken(Player toShow){

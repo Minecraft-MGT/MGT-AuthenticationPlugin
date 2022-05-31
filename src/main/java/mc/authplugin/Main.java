@@ -10,6 +10,7 @@ public final class Main extends JavaPlugin {
 
     public static JavaPlugin plugin;
     public static String apiAccessToken = "";
+    public static String webServerApiAdress = "";
 
     @Override
     public void onEnable() {
@@ -22,6 +23,15 @@ public final class Main extends JavaPlugin {
         }else{
             System.out.println("API-AccessToken: could not be loaded...");
             getConfig().set("apiAccessToken", "unset");
+            saveConfig();
+        }
+
+        if(getConfig().contains("webServerApiAdress")){
+            webServerApiAdress = getConfig().getString("webServerApiAdress");
+            System.out.println("webServerApiAdress: "+webServerApiAdress);
+        }else{
+            System.out.println("webServerApiAdress: could not be loaded...");
+            getConfig().set("webServerApiAdress", webServerApiAdress);
             saveConfig();
         }
 

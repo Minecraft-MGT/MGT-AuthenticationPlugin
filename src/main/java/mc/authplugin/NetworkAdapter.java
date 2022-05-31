@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -15,7 +16,7 @@ import java.net.URL;
 
 public class NetworkAdapter {
 
-    public static final String webServerApiAdress = "http://deine-mom.de:31313/api/";
+
 
     public static String getCurrentServerAddress(){
         return Main.plugin.getServer().getIp()+":"+Main.plugin.getServer().getPort();
@@ -34,7 +35,7 @@ public class NetworkAdapter {
         args.addProperty("method", "get_token");
         args.addProperty("playername", name);
 
-        String response = sendApiRq(webServerApiAdress, buildApiRequst(args));
+        String response = sendApiRq(Main.webServerApiAdress, buildApiRequst(args));
 
         if(new JsonParser().parse(response).getAsJsonObject().get("token").isJsonNull()) return null;
         return new JsonParser().parse(response).getAsJsonObject().get("token").getAsString();
@@ -45,24 +46,25 @@ public class NetworkAdapter {
     Notifies the WebServer that uses the authentication that this Minecraft Server is able to authenticate Players.
      */
     public static void registerAuthenticator(){
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.plugin, ()-> {
+            JsonObject args = new JsonObject();
+            args.addProperty("method", "register");
+            args.addProperty("address", getCurrentServerAddress());
 
-        JsonObject args = new JsonObject();
-        args.addProperty("method", "register");
-        args.addProperty("address", getCurrentServerAddress());
-
-        System.out.println(sendApiRq(webServerApiAdress, buildApiRequst(args)));
+            System.out.println(sendApiRq(Main.webServerApiAdress, buildApiRequst(args)));
+        });
     }
     /*
     Notifies the WebServer that uses the authentication that this Minecraft Server is no longer available as an Authenticator.
      */
     public static void deregisterAuthenticator() {
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.plugin, ()-> {
+            JsonObject args = new JsonObject();
+            args.addProperty("method", "deregister");
+            args.addProperty("address", getCurrentServerAddress());
 
-        JsonObject args = new JsonObject();
-        args.addProperty("method", "deregister");
-        args.addProperty("address", getCurrentServerAddress());
-
-        System.out.println(sendApiRq(webServerApiAdress, buildApiRequst(args)));
-
+            System.out.println(sendApiRq(Main.webServerApiAdress, buildApiRequst(args)));
+        });
     }
 
 
