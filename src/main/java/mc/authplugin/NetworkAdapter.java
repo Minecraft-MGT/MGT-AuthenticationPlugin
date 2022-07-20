@@ -6,10 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,7 +16,10 @@ public class NetworkAdapter {
 
 
     public static String getCurrentServerAddress(){
-        return Main.plugin.getServer().getIp()+":"+Main.plugin.getServer().getPort();
+        String externalIP;
+        try {externalIP = new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com").openStream())).readLine();}
+        catch (IOException e) {externalIP = "INVALID";}
+        return externalIP+":"+Main.plugin.getServer().getPort();
     }
 
     public static JsonObject buildApiRequst(JsonObject args){
@@ -58,13 +58,10 @@ public class NetworkAdapter {
     Notifies the WebServer that uses the authentication that this Minecraft Server is no longer available as an Authenticator.
      */
     public static void deregisterAuthenticator() {
-        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.plugin, ()-> {
-            JsonObject args = new JsonObject();
-            args.addProperty("method", "deregister");
-            args.addProperty("address", getCurrentServerAddress());
-
-            System.out.println(sendApiRq(Main.webServerApiAdress, buildApiRequst(args)));
-        });
+        JsonObject args = new JsonObject();
+        args.addProperty("method", "deregister");
+        args.addProperty("address", getCurrentServerAddress());
+        System.out.println(sendApiRq(Main.webServerApiAdress, buildApiRequst(args)));
     }
 
 
